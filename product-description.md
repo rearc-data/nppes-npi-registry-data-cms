@@ -26,7 +26,7 @@ More Information
 
 -   Source - [Centers for Medicare & Medicaid Services
     (CMS)](https://www.cms.gov/Regulations-and-Guidance/Administrative-Simplification/NationalProvIdentStand/DataDissemination)
--   [CMS Data Homepage](https://www.cms.gov/)
+-   [CMS Homepage](https://www.cms.gov/)
 -   [Terms of Use](https://www.usa.gov/government-works) 
 -   Frequency: Weekly
 -   Formats: CSV, PDF
