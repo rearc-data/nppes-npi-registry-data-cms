@@ -2,7 +2,8 @@
 
 NPPES NPI Registry Data | CMS
 =========================
-You can subscribe to the AWS Data Exchange product utilizing the automation featured in this repository by visiting 
+The source code outlining how this product gathers, transforms, revises and publishes its datasets is available at [https://github.com/rearc-data/nppes-npi-registry-data-cms](https://github.com/rearc-data/nppes-npi-registry-data-cms).
+ 
 
 Main Overview
 -------------
