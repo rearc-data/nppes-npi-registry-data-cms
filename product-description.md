@@ -17,15 +17,7 @@ by the CMS, please visit the [CMS Data homepage](https://data.cms.gov/).
 
 #### Data Source
 
-This resource is presented in both the PDF and CSV formats. The
-included zip download contains the following files: 
-
-- an endpoint file for Type 1 and 2 NPIs 
-- NPI data file
-- other names file for NPI type 2s which have other names associated with them
-- code values 
-- a read me 
-- a practice location(pl) file which contains all the non-primary pl for for type 1 and 2 NPIs
+The provided data files are presented in CSV format, while the associated documentation files are presented PDF format. For details regarding the included files visit [CMS's webpage for NPI Data Dissemination](https://www.cms.gov/Regulations-and-Guidance/Administrative-Simplification/NationalProvIdentStand/DataDissemination).
 
 
 
