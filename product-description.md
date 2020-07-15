@@ -7,7 +7,8 @@ You can subscribe to the AWS Data Exchange product utilizing the automation feat
 Main Overview
 -------------
 
-This release provides information of NPPES health care providers.
+This release contains an achieved copy of the National Plan and Provider Enumeration System (NPPES)'s National Provider Identifier (NPI) registry data. NPI numbers are utilized throughout various interactions within the United State medical system to identify individual healthcare providers.
+
 
 Centers for Medicare & Medicaid provide substantial amounts of data to
 the public about their programs, various health care topics, and care
