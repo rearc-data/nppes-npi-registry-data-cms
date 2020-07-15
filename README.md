@@ -40,7 +40,7 @@ More Information
 -   [CMS Data Homepage](https://data.cms.gov/)
 -   [Terms of Use](https://www.usa.gov/government-works) 
 -   Frequency: Weekly
--   Formats: CSV, JSON
+-   Formats: CSV, PDF
 
 Contact Details
 ---------------
