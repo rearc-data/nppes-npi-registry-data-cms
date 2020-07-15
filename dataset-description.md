@@ -1,1 +1,1 @@
-This release provides information of NPPES health care providers.
+This release contains an achieved copy of the National Plan and Provider Enumeration System (NPPES)'s National Provider Identifier (NPI) registry data. NPI numbers are utilized throughout various interactions within the United State medical system to identify individual healthcare providers.
