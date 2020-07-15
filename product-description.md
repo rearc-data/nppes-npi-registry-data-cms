@@ -17,7 +17,7 @@ by the CMS, please visit the [CMS Data homepage](https://data.cms.gov/).
 
 #### Data Source
 
-The provided data files are presented in CSV format, while the associated documentation files are presented PDF format. For details regarding the included files visit [CMS's webpage for NPI Data Dissemination](https://www.cms.gov/Regulations-and-Guidance/Administrative-Simplification/NationalProvIdentStand/DataDissemination).
+The provided data files are presented in CSV format, while the associated documentation files are presented in PDF format. For details regarding the included files visit [CMS's webpage for NPI Data Dissemination](https://www.cms.gov/Regulations-and-Guidance/Administrative-Simplification/NationalProvIdentStand/DataDissemination).
 
 
 
