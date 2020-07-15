@@ -4,7 +4,7 @@
 
 
 
-Data Dissmenination | CMS
+NPPES NPI Registry Data | CMS
 =========================
 You can subscribe to the AWS Data Exchange product utilizing the automation featured in this repository by visiting 
 
@@ -20,7 +20,7 @@ by the CMS, please visit the [CMS Data homepage](https://data.cms.gov/).
 
 #### Data Source
 
-This resource is presented in both the JSON and CSV formats. The
+This resource is presented in both the PDF and CSV formats. The
 included zip download contains the following files: 
 
 - an endpoint file for Type 1 and 2 NPIs 
