@@ -2,15 +2,16 @@
 <img src="./rearc_logo_rgb.png" alt="Rearc Logo" title="Rearc Logo" height="52" />
 </a>
 
-Order and Referring Medicare Data | CMS
+
+
+Data Dissmenination | CMS
 =========================
 You can subscribe to the AWS Data Exchange product utilizing the automation featured in this repository by visiting 
 
 Main Overview
 -------------
 
-This release provides information of medical specialists, physicians and other healthcare professionals who can be consulted by those in the Medicare program released by
-the Centers for Medicare & Medicaid Services (CMS).
+This release provides information of NPPES health care providers.
 
 Centers for Medicare & Medicaid provide substantial amounts of data to
 the public about their programs, various health care topics, and care
@@ -20,9 +21,16 @@ by the CMS, please visit the [CMS Data homepage](https://data.cms.gov/).
 #### Data Source
 
 This resource is presented in both the JSON and CSV formats. The
-included dataset contains the following columns:
+included zip download contains the following files: 
 
-`"npi", "last_name", "first_name", "partb", "dme", "hha", "pmd"`
+- an endpoint file for Type 1 and 2 NPIs 
+- NPI data file
+- other names file for NPI type 2s which have other names associated with them
+- code values 
+- a read me 
+- a practice location(pl) file which contains all the non-primary pl for for type 1 and 2 NPIs
+
+
 
 More Information
 ----------------
