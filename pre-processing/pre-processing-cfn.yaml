@@ -70,16 +70,18 @@ Resources:
           - Arn
       Environment:
         Variables:
-          S3_BUCKET:
-            Fn::Sub: ${S3Bucket}
-          DATA_SET_NAME:
-            Fn::Sub: ${DataSetName}
-          DATA_SET_ARN:
-            Fn::Sub: ${DataSetArn}
-          PRODUCT_ID:
-            Fn::Sub: ${ProductId}
-          REGION:
-            Fn::Sub: ${Region}
+          RDP_ROLE_ARN: !Sub ${RearcDataPlatformRoleArn}
+          RDP_EXTERNAL_ID: !Sub ${RearcDataPlatformExternalId}
+          ASSET_BUCKET: !Sub ${AssetBucket}
+          MANIFEST_BUCKET: !Sub ${ManifestBucket}
+          CUSTOMER_ID: !Sub ${CustomerId}
+          DATASET_NAME: !Sub ${DataSetName}
+          DATASET_ARN: !Sub ${DataSetArn}
+          PRODUCT_ID: !Sub ${ProductId}
+          REGION: !Sub ${Region}
+#      Layers:
+#        - Ref: PyRearcADXLayer
+      Layers: ["arn:aws:lambda:us-east-1:796406704065:layer:rearc-data-utils:42"]
 
   ScheduledRule:
     Type: AWS::Events::Rule
@@ -106,6 +108,22 @@ Resources:
         Fn::GetAtt:
           - "ScheduledRule"
           - "Arn"
+          
+  version:
+    Type: AWS::Lambda::Version
+    Properties:
+      FunctionName: !Ref "LambdaFunction"
+
+  asyncconfig:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      DestinationConfig:
+          OnFailure:
+            Destination: arn:aws:sns:us-east-1:796406704065:adx-lambda-error
+      FunctionName: !Ref "LambdaFunction"
+      MaximumEventAgeInSeconds: 300
+      MaximumRetryAttempts: 2
+      Qualifier: $LATEST
 
 Outputs:
   LambdaRoleARN:
