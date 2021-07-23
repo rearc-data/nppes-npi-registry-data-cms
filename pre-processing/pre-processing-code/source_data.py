@@ -31,7 +31,7 @@ def source_dataset():
     if response == None:
         raise Exception('There was an issue downloading the dataset')
 
-    data_set_name = os.environ['DATA_SET_NAME']
+    data_set_name = os.environ['DATASET_NAME']
     zip_location = '/tmp/' + data_set_name + '.zip'
 
     # unzips the zipped folder
@@ -46,7 +46,7 @@ def source_dataset():
     folder_dir = os.listdir('/tmp')[0]
 
     # variables/resources used to upload to s3
-    s3_bucket = os.environ['S3_BUCKET']
+    s3_bucket = os.environ['ASSET_BUCKET']
     s3 = boto3.client('s3')
 
     s3_uploads = []
