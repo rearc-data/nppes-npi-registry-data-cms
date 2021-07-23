@@ -3,10 +3,23 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: "AWS::Serverless-2016-10-31"
 # CloudFormation template in YAML to setup an automated process to update revisions to datasets in AWS Data Exchange
 Parameters:
-  S3Bucket:
+  RearcDataPlatformRoleArn:
+    Type: String
+    Description: The Cross Account IAM Role ARN to Access the Manifest Bucket in Rearc Data Platform's control plane account.
+  RearcDataPlatformExternalId:
+    Type: String
+    Description: The Cross Account External ID to Access the Manifest Bucket in Rearc Data Platform's control plane account.
+  AssetBucket:
     Type: String
     Default: rearc-data-provider
-    Description: Provide the S3 Bucket name where this dataset resides. For e.g. rearc-data-provider
+    Description: The S3 Bucket name where this dataset resides.
+  ManifestBucket:
+    Type: String
+    Description: The Manifest S3 Bucket name where the manifest file will be uploaded.
+  CustomerId:
+    Type: String
+    Default: rearc
+    Description: This is the customer Id in Rearc Data Platform and will be used as prefix in manifest bucket.
   DataSetName:
     Type: String
     Description: Name of the dataset
@@ -20,9 +33,14 @@ Parameters:
     Type: String
     Default: us-east-1
     Description: AWS Region for AWS Data Exchange
-
+  ScheduleCron:
+    Type: String
+    Description: Cron Expression for the Lambda Run Schedule
+Mappings:
+  Resources:
+    FailureSNSTopic:
+      Arn: arn:aws:sns:us-east-1:796406704065:adx-lambda-error
 Resources:
-# Create an IAM role for Lambda to use
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -36,13 +54,20 @@ Resources:
               - lambda.amazonaws.com
         Version: 2012-10-17
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AWSLambdaExecute
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
-        - arn:aws:iam::796406704065:policy/AWSDataExchangeService
-        - arn:aws:iam::aws:policy/AWSMarketplaceSellerFullAccess
-      Path: /
+      Policies:
+        - PolicyName: AssumeRearcDataPlatformRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action: sts:AssumeRole
+              Resource: !Sub '${RearcDataPlatformRoleArn}'
+            - Effect: Allow
+              Action: sns:Publish
+              Resource: !FindInMap [Resources, FailureSNSTopic, Arn]
 
-# Create a Lambda function that will update daily revisions to AWS Data Exchange dataset
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -54,20 +79,16 @@ Resources:
       Description: "Source revision updates to AWS Data Exchange data set"
       Runtime: "python3.7"
       Code:
-        S3Bucket:
-          Fn::Sub: ${S3Bucket}
+        S3Bucket: !Sub ${AssetBucket}
         S3Key:
           !Join
             - ''
-            - - Fn::Sub: ${DataSetName}
+            - - !Sub ${DataSetName}
               - '/automation/pre-processing-code.zip'
       Handler: "lambda_function.lambda_handler"
-      MemorySize: 256
-      Timeout: 120
-      Role:
-        Fn::GetAtt:
-          - LambdaRole
-          - Arn
+      MemorySize: 2048
+      Timeout: 900
+      Role: !GetAtt [ LambdaRole, Arn ]
       Environment:
         Variables:
           RDP_ROLE_ARN: !Sub ${RearcDataPlatformRoleArn}
@@ -83,18 +104,29 @@ Resources:
 #        - Ref: PyRearcADXLayer
       Layers: ["arn:aws:lambda:us-east-1:796406704065:layer:rearc-data-utils:42"]
 
+#  PyRearcADXLayer:
+#    Type: AWS::Lambda::LayerVersion
+#    Properties:
+#      CompatibleRuntimes:
+#        - python3.8
+#      Content:
+#        S3Bucket: !Sub "${AssetBucket}"
+#        S3Key:
+#         !Join
+#           - ''
+#            - - !Sub ${DataSetName}
+#             - '/automation/python-layer.zip'
+#      Description: PyRearcADXLayer Lambda Layer for Python3.8
+
   ScheduledRule:
     Type: AWS::Events::Rule
     Properties:
       Description: "ScheduledRule"
-      ScheduleExpression: "cron(0 10 1/4 * ? *)"
+      ScheduleExpression: !Sub ${ScheduleCron}
       State: "ENABLED"
       Targets:
         -
-          Arn:
-            Fn::GetAtt:
-              - "LambdaFunction"
-              - "Arn"
+          Arn: !GetAtt [ LambdaFunction, Arn ]
           Id: "TargetFunctionV1"
 
   PermissionForEventsToInvokeLambda:
@@ -104,11 +136,8 @@ Resources:
         Ref: "LambdaFunction"
       Action: "lambda:InvokeFunction"
       Principal: "events.amazonaws.com"
-      SourceArn:
-        Fn::GetAtt:
-          - "ScheduledRule"
-          - "Arn"
-          
+      SourceArn: !GetAtt [ ScheduledRule, Arn ]
+
   version:
     Type: AWS::Lambda::Version
     Properties:
@@ -128,10 +157,6 @@ Resources:
 Outputs:
   LambdaRoleARN:
     Description: Role for Lambda execution.
-    Value:
-      Fn::GetAtt:
-        - LambdaRole
-        - Arn
+    Value: !GetAtt [ LambdaRole, Arn ]
   LambdaFunctionName:
-    Value:
-      Ref: LambdaFunction
+    Value: !Ref "LambdaFunction"
