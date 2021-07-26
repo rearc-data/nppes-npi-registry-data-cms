@@ -43,14 +43,14 @@ def source_dataset():
 
     os.remove(zip_location)
 
-    folder_dir = os.listdir('/tmp')[0]
+    folder_dir = os.listdir('/tmp')
 
     # variables/resources used to upload to s3
     s3_bucket = os.environ['ASSET_BUCKET']
     s3 = boto3.client('s3')
 
     s3_uploads = []
-    for r, d, f in os.walk('/tmp/' + folder_dir):
+    for r, d, f in os.walk('/tmp/'):
         for filename in f:
             obj_name = os.path.join(r, filename).split(
                 '/', 3).pop().replace(' ', '_').lower()
