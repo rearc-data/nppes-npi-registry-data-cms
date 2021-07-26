@@ -9,7 +9,7 @@ from s3_md5_compare import md5_compare
 
 def source_dataset():
 
-    source_dataset_url = 'https://download.cms.gov/nppes/NPPES_Data_Dissemination_November_2020.zip'
+    source_dataset_url = 'https://download.cms.gov/nppes/NPPES_Data_Dissemination_071221_071821_Weekly.zip'
     response = None
 
     retries = 5
