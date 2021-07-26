@@ -122,11 +122,8 @@ Resources:
     Type: AWS::Events::Rule
     Properties:
       Description: "ScheduledRule"
-<<<<<<< HEAD
       ScheduleExpression: !Sub ${ScheduleCron}
-=======
       ScheduleExpression: "cron(0 18 ? * 6 *)"
->>>>>>> 116284adf311ec029c2678aa6898150067039412
       State: "ENABLED"
       Targets:
         -
