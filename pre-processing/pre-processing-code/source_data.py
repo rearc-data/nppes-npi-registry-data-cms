@@ -9,18 +9,15 @@ from datetime import date, timedelta
 
 
 def source_dataset():
-    
     today = date.today()
     
-    
-    last_sunday = today - timedelta(days=9)
-    start_of_last_week = last_sunday - timedelta(days=16)
-    
-    start_date = start_of_last_week.strftime('%m%d%y') # '071221'
+    #days_between_today_and_last_sunday = today.weekday() + 2  
+    last_sunday = today - timedelta(days=2)
     end_date = last_sunday.strftime('%m%d%y')
-
+    start = last_sunday - timedelta(days=6)
+    start_date = start.strftime('%m%d%y')
     
-
+    
     source_dataset_url = 'https://download.cms.gov/nppes/NPPES_Data_Dissemination_{start_date}_{end_date}_Weekly.zip'
     response = None
 
