@@ -5,11 +5,23 @@ from urllib.request import urlopen
 from urllib.error import URLError, HTTPError
 from zipfile import ZipFile
 from s3_md5_compare import md5_compare
+from datetime import date, timedelta
 
 
 def source_dataset():
+    
+    today = date.today()
+    
+    
+    last_sunday = today - timedelta(days=9)
+    start_of_last_week = last_sunday - timedelta(days=16)
+    
+    start_date = start_of_last_week.strftime('%m%d%y') # '071221'
+    end_date = last_sunday.strftime('%m%d%y')
 
-    source_dataset_url = 'https://download.cms.gov/nppes/NPPES_Data_Dissemination_071221_071821_Weekly.zip'
+    
+
+    source_dataset_url = 'https://download.cms.gov/nppes/NPPES_Data_Dissemination_{start_date}_{end_date}_Weekly.zip'
     response = None
 
     retries = 5
