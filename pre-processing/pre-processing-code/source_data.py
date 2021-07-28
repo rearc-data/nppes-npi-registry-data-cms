@@ -66,7 +66,7 @@ def source_dataset():
             file_location = os.path.join(r, filename)
             new_s3_key = data_set_name + '/dataset/' + obj_name
 
-            has_changes = md5_compare(s3, s3_bucket, new_s3_key, file_location)
+            has_changes = True #md5_compare(s3, s3_bucket, new_s3_key, file_location)
             if has_changes:
                 s3.upload_file(file_location, s3_bucket, new_s3_key)
                 print('Uploaded: ' + filename)
